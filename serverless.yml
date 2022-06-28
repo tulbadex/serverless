@@ -1,0 +1,103 @@
+service: lambda-crud-api
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  environment:
+    DYNAMODB_TABLE_NAME: ${self:custom.serverlessTableName}
+
+plugins:
+  - serverless-iam-roles-per-function
+
+custom:
+  serverlessTableName: servelessq-${self:provider.stage}
+
+functions:
+  getBlogs:
+    handler: api.getBlog
+    name: get-blog
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: blogs/{id}
+          method: GET
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:GetItem"
+        Resource: !GetAtt ServerlessTable.Arn
+  createBlog:
+    handler: api.createBlog
+    name: create-blog
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: blogs
+          method: POST
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:PutItem"
+        Resource: !GetAtt ServerlessTable.Arn
+  updateBlog:
+    handler: api.updateBlog
+    name: update-blog
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: blogs/{id}
+          method: PUT
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:UpdateItem"
+        Resource: !GetAtt ServerlessTable.Arn
+  deleteblogPost:
+    handler: api.deleteBlog
+    name: delete-blog
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: blogs/{id}
+          method: DELETE
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:DeleteItem"
+        Resource: !GetAtt ServerlessTable.Arn
+  getAllPosts:
+    handler: api.getAllBlogs
+    name: get-all-blogs
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: blog
+          method: GET
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:Scan"
+        Resource: !GetAtt ServerlessTable.Arn
+
+resources:
+  Resources:
+    ServerlessTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.serverlessTableName}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
