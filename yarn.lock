@@ -65,7 +65,7 @@
     "@aws-sdk/types" "3.110.0"
     tslib "^2.3.1"
 
-"@aws-sdk/client-dynamodb@^3.118.1":
+"@aws-sdk/client-dynamodb@^3.121.0":
   version "3.121.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-dynamodb/-/client-dynamodb-3.121.0.tgz#72e06b036bf02a2521e1a443a9f8b1be8dcd655d"
   integrity sha512-j5JgFagsyAoE7HxRD4Iis7IFmIV1W1fXeRZiQ6f5OwMlvhcnpacXPsVoxZfag4wz58WTuaJXbRiD5k5xxqTYvQ==
