@@ -11,8 +11,8 @@
   "author": "tulbadex",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.18.0",
-    "@aws-sdk/util-dynamodb": "^3.18.0"
+    "@aws-sdk/client-dynamodb": "^3.121.0",
+    "@aws-sdk/util-dynamodb": "^3.118.1"
   },
   "devDependencies": {
     "serverless-iam-roles-per-function": "^3.2.0"
